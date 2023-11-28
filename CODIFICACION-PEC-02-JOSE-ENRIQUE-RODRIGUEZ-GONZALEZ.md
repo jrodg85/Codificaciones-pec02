@@ -135,7 +135,6 @@ Las tres primeras partes de la PEC, de resolución obligatoria, harán referenci
 
 Se pide que, con la información que encontraréis en las tablas adjuntas, realicéis algunos cálculos relacionados con los parámetros de la señal OFDM (**en la solución de la PEC se tienen que entregar todos los pasos comentados necesarios para obtener los resultados que se piden**).
 
-
 [Volver al Índice](#índice)
 
 ---
@@ -160,7 +159,6 @@ Donde:
 - $T_{OFDM}$: Tiempo de símbolo OFDM.
 - $B_{W_{OFDM}}$: Ancho de banda de la señal OFDM.
 
-
 [Volver al Índice](#índice)
 
 ---
@@ -179,7 +177,7 @@ Para resolver la [Pregunta 1.1](#pregunta-11), usaremos los parámetros dados en
     - El ancho de banda se calcula como $B_{W_{OFDM}} = K \cdot \delta_f$.
 Con $K = 104$ y $\delta_f$ calculado anteriormente, $B_{W_{OFDM}} = 104 \cdot \delta_f$
 
-Con el siguiente script en python, procederemos a realizar los calculos para obtener los valores exactos:
+Con el siguiente script en python, procederemos a realizar los cálculos para obtener los valores exactos:
 
 ~~~Python
 # Definiendo los parámetros dados
@@ -221,7 +219,6 @@ B_W_OFDM:  1083333.3333333333  Hz
 
 - $B_{W_{OFDM}}$ (Ancho de banda de la señal OFDM) $= 1,083,333.33 Hz \approx 1.08 MHz$
 
-
 [Volver al Índice](#índice)
 
 ---
@@ -242,7 +239,7 @@ El factor de reducción se calcula como la relación entre el tiempo de símbolo
 
 Factor de reducción $= \frac{T_{OFDM}}{T_p}$.
 
-Ya tenemos los valores de $T_{OFDM}$ y $T_p$ de la pregunta anterior. Realizarémos los calculos con segun el siguiente script de python, siendo este continuación del codigo anterior..
+Ya tenemos los valores de $T_{OFDM}$ y $T_p$ de la pregunta anterior. Realizaremos los cálculos con según el siguiente script de python, siendo este continuación del código anterior..
 
 ~~~Python
 # Cálculo del factor de reducción debido al prefijo cíclico
@@ -260,8 +257,6 @@ factor_reduccion:  0.8
 
 El factor por el cual se reduce la velocidad de transmisión debido a la inserción del prefijo cíclico es de 0.8 o el 80%. Esto significa que, debido al tiempo adicional ocupado por el prefijo cíclico, solo el 80% del tiempo del símbolo OFDM se utiliza para la transmisión efectiva de datos.
 
-
-
 [Volver al Índice](#índice)
 
 ---
@@ -278,14 +273,11 @@ Para el caso 2, proponed una modulación y un código que pueda lograr la veloci
 | Caso 2 |  |  |  |  | 300 |
 |  |  |  |  |  |  |
 
-
-
 [Volver al Índice](#índice)
 
 ---
 
 ## Respuesta a la pregunta 1.3.
-
 
 Para resolver la Pregunta 1.3, aplicaremos los conceptos de modulación y codificación en la señal OFDM.
 
@@ -322,7 +314,6 @@ print("Velocidad de transmisión en bits por segundo codificados: ", velocidad_b
 print("Velocidad de transmisión en bits por segundo útiles: ", velocidad_bits_utiles_s / 1000, " kb/s.")
 ~~~
 
-
 Obtenemos la siguiente respuesta de la consola
 
 ~~~Shell
@@ -338,7 +329,6 @@ Velocidad de transmisión en bits por segundo útiles:  800.0  kb/s.
 - Velocidad de Transmisión en Bits por Segundo Codificados (V. tx. bits codificados):$1600.0  kb/s$.
 - Velocidad de Transmisión en Bits por Segundo Útiles (V. tx. bits útiles): $800.0  kb/s$.
 
-
 **Propuesta para el Caso 2 (Alcanzar una Velocidad de Transmisión de 300 kb/s)**
 
 Para alcanzar una velocidad útil de transmisión de 300 kb/s, se puede jugar con la modulación y el rate del código convolucional. Una estrategia podría ser usar una modulación con menos bits por símbolo y/o un rate de código más alto. Por ejemplo, podríamos considerar usar BPSK (1 bit por símbolo) con un rate de código de 1/2.
@@ -347,7 +337,7 @@ La fórmula para la velocidad de bits útiles sería entonces:
 
 $\text{V.tx.bits útiles} = \frac{1}{T_{OFDM}} \times \text{bits por símbolo de BPSK} \times K_U \times \text{rate del código}$
 
-Procederemos a probar a realizar los cálculos con la combinacion de BPSK con un rate de codigo de 1/2, resultando los siguientes cálculos.
+Procederemos a probar a realizar los cálculos con la combinación de BPSK con un rate de código de 1/2, resultando los siguientes cálculos.
 
 ~~~Python
 # Parámetros para el Caso 2
@@ -367,7 +357,6 @@ Respondiendo la terminal con la siguiente respuesta:
 Caso 2:
 velocidad_bits_utiles_BPSK_s:  400.0  kb/s.
 ~~~
-
 
 La combinación de BPSK con un rate de código de 1/2 resulta en una velocidad de transmisión de 400 kb/s, lo cual es superior a los 300 kb/s requeridos en el Caso 2. Por lo tanto, necesitamos ajustar la modulación o el rate del código para disminuir la velocidad de transmisión a 300 kb/s.
 
