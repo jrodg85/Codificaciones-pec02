@@ -242,23 +242,23 @@ El factor de reducción se calcula como la relación entre el tiempo de símbolo
 
 Factor de reducción $= \frac{T_{OFDM}}{T_p}$.
 
-Ya tenemos los valores de $T_{OFDM}$ y $T_p$ de la pregunta anterior. Realizarémos los calculos con segun el siguiente script de python.
+Ya tenemos los valores de $T_{OFDM}$ y $T_p$ de la pregunta anterior. Realizarémos los calculos con segun el siguiente script de python, siendo este continuación del codigo anterior..
 
 ~~~Python
 # Cálculo del factor de reducción debido al prefijo cíclico
-factor_reduccion = T_OFDM / T_p
+factor_reduccion = T_p / T_OFDM
 print("factor_reduccion: ", factor_reduccion)
 ~~~
 
 Obteniendo la siguiente respuesta por parte de la consola:
 
 ~~~Shell
-factor_reduccion:  1.2499999999999998
+factor_reduccion:  0.8
 ~~~
 
 **Conclusiones:**
 
-La velocidad de transmisión se ve reducida en un factor de aproximadamente $1.25$ debido a la inserción del prefijo cíclico en la señal OFDM. Esto significa que, debido al prefijo cíclico, la eficiencia de transmisión se reduce en un $25% aproximadamente.
+El factor por el cual se reduce la velocidad de transmisión debido a la inserción del prefijo cíclico es de 0.8 o el 80%. Esto significa que, debido al tiempo adicional ocupado por el prefijo cíclico, solo el 80% del tiempo del símbolo OFDM se utiliza para la transmisión efectiva de datos.
 
 
 
@@ -286,50 +286,116 @@ Para el caso 2, proponed una modulación y un código que pueda lograr la veloci
 
 ## Respuesta a la pregunta 1.3.
 
-Para resolver la [Pregunta 1.3](#pregunta-13), primero calcularemos la velocidad de transmisión para el Caso 1 y luego propondremos una solución para el Caso 2.
 
-**Caso 1: QPSK con Rate 1/2**
+Para resolver la Pregunta 1.3, aplicaremos los conceptos de modulación y codificación en la señal OFDM.
 
-1. Velocidad de transmisión en símbolos por segundo:
-    - Dado que el prefijo cíclico es 1/4 del tiempo útil de símbolo, el tiempo total de símbolo OFDM ($T_{OFDM}$) es igual a $T_p + T_p/4 = 5/4 \cdot T_p$.
-    - La velocidad de transmisión en símbolos por segundo es la inversa del tiempo de símbolo OFDM, es decir, $1 / T_{OFDM}$.
-2. Velocidad de transmisión en bits por segundo codificados:
-    - Con QPSK, cada símbolo representa 2 bits.
-    - La velocidad de bits codificados es, por lo tanto, el doble de la velocidad de transmisión en símbolos por segundo.
-3. Velocidad de transmisión en bits por segundo útiles:
-    - Con un rate de código convolucional de 1/2, la mitad de los bits son para corrección de errores.
-    - Por lo tanto, la velocidad de bits útiles es la mitad de la velocidad de bits codificados.
+**Caso 1: QPSK con Rate de Código Convencional 1/2**
 
-Con el siguiente script en Python, procederemos a realizar los cálculos.
+1. Velocidad de Transmisión en Símbolos por Segundo (V. tx. símbolo):
+    - Se calcula como el inverso del tiempo de símbolo OFDM: $\text{V.tx.símbolo} = \text{1/T_{OFDM}}$.
+2. Velocidad de Transmisión en Bits por Segundo Codificados (V. tx. bits codificados):
+    - Para QPSK, cada símbolo lleva 2 bits. Entonces, $\text{V.tx.bitscodificados}=\text{V.tx.símbolo} \times 2 \times K_U$.
+3. Velocidad de Transmisión en Bits por Segundo Útiles (V. tx. bits útiles):
+    - Con un rate de código convencional de 1/2, la mitad de los bits son para redundancia. Entonces, $\text{V.tx.bitsútiles} = \text{V.tx.bitscodificados} \times \text{rate}$.
+
+Procedemos a realizar los cálculos con el siguiente script de python, el cual es continuación del presente ejercicio.
 
 ~~~Python
-# Parámetros para el caso 1
+# Parámetros dados para el Caso 1
 K_U = 96  # Número de portadoras útiles
-modulacion_bits_por_simbolo = 2  # QPSK representa 2 bits por símbolo
-rate_codigo = 1/2  # Rate del código convolucional
+rate_codigo = 1/2  # Rate del código convencional
+bits_por_simbolo_QPSK = 2  # Cada símbolo QPSK lleva 2 bits
 
+# Cálculo para el Caso 1
 # Velocidad de transmisión en símbolos por segundo
-# Teniendo en cuenta el prefijo cíclico de 1/4 del tiempo útil de símbolo
-T_OFDM_con_prefijo = 5/4 * T_p  # Tiempo total de símbolo OFDM con prefijo
-velocidad_simbolos_por_segundo = 1 / T_OFDM_con_prefijo
+velocidad_simbolos_s = 1 / T_OFDM
 
 # Velocidad de transmisión en bits por segundo codificados
-velocidad_bits_codificados_por_segundo = velocidad_simbolos_por_segundo * modulacion_bits_por_simbolo * K_U
+velocidad_bits_codificados_s = velocidad_simbolos_s * bits_por_simbolo_QPSK * K_U
 
 # Velocidad de transmisión en bits por segundo útiles
-velocidad_bits_utiles_por_segundo = velocidad_bits_codificados_por_segundo * rate_codigo
+velocidad_bits_utiles_s = velocidad_bits_codificados_s * rate_codigo
 
-print("velocidad_simbolos_por_segundo: ", velocidad_simbolos_por_segundo)
-print("velocidad_bits_codificados_por_segundo: ", velocidad_bits_codificados_por_segundo / 1000)
-print("velocidad_bits_utiles_por_segundo: ", velocidad_bits_utiles_por_segundo / 1000)  # Convertido a kilobits por segundo (kb/s)
-
+print("Caso 1:")
+print("Velocidad de transmisión en símbolos por segundo: ", velocidad_simbolos_s, " símbolo/s.")
+print("Velocidad de transmisión en bits por segundo codificados: ", velocidad_bits_codificados_s / 1000, " kb/s.")
+print("Velocidad de transmisión en bits por segundo útiles: ", velocidad_bits_utiles_s / 1000, " kb/s.")
 ~~~
 
 
+Obtenemos la siguiente respuesta de la consola
+
+~~~Shell
+Caso 1:
+Velocidad de transmisión en símbolos por segundo:  8333.333333333334  símbolo/s.
+Velocidad de transmisión en bits por segundo codificados:  1600.0  kb/s.
+Velocidad de transmisión en bits por segundo útiles:  800.0  kb/s.
+~~~
+
+**Respuesta para el caso 1:**
+
+- Velocidad de Transmisión en Símbolos por Segundo (V. tx. símbolo): $8333.333333333334  símbolo/s$.
+- Velocidad de Transmisión en Bits por Segundo Codificados (V. tx. bits codificados):$1600.0  kb/s$.
+- Velocidad de Transmisión en Bits por Segundo Útiles (V. tx. bits útiles): $800.0  kb/s$.
 
 
+**Propuesta para el Caso 2 (Alcanzar una Velocidad de Transmisión de 300 kb/s)**
+
+Para alcanzar una velocidad útil de transmisión de 300 kb/s, se puede jugar con la modulación y el rate del código convolucional. Una estrategia podría ser usar una modulación con menos bits por símbolo y/o un rate de código más alto. Por ejemplo, podríamos considerar usar BPSK (1 bit por símbolo) con un rate de código de 1/2.
+
+La fórmula para la velocidad de bits útiles sería entonces:
+
+$\text{V.tx.bits útiles} = \frac{1}{T_{OFDM}} \times \text{bits por símbolo de BPSK} \times K_U \times \text{rate del código}$
+
+Procederemos a probar a realizar los cálculos con la combinacion de BPSK con un rate de codigo de 1/2, resultando los siguientes cálculos.
+
+~~~Python
+# Parámetros para el Caso 2
+# Considerando BPSK con 1 bit por símbolo y un rate de código de 1/2
+bits_por_simbolo_BPSK = 1  # Cada símbolo BPSK lleva 1 bit
+rate_codigo_BPSK = 1/2  # Rate del código convencional para BPSK
+# Cálculo de la velocidad de bits útiles para BPSK
+velocidad_bits_utiles_BPSK_s = (1 / T_OFDM) * bits_por_simbolo_BPSK * K_U * rate_codigo_BPSK
+print("Caso 2: ")
+# Cálculo de la velocidad de bits útiles para BPSK
+print("velocidad_bits_utiles_BPSK_s: ", velocidad_bits_utiles_BPSK_s / 1000, " kb/s.")
+~~~
+
+Respondiendo la terminal con la siguiente respuesta:
+
+~~~Shell
+Caso 2:
+velocidad_bits_utiles_BPSK_s:  400.0  kb/s.
+~~~
 
 
+La combinación de BPSK con un rate de código de 1/2 resulta en una velocidad de transmisión de 400 kb/s, lo cual es superior a los 300 kb/s requeridos en el Caso 2. Por lo tanto, necesitamos ajustar la modulación o el rate del código para disminuir la velocidad de transmisión a 300 kb/s.
+
+Una posible estrategia es mantener la modulación BPSK pero utilizar un rate de código más bajo. Por ejemplo, si se usa un rate de código de aproximadamente 3/8 (manteniendo BPSK), la velocidad de bits útiles debería ser cercana a los 300 kb/s.
+
+Procedo a comprobar los nuevo cálculos:
+
+~~~Python
+# Nuevo rate de código para alcanzar aproximadamente 300 kb/s con BPSK
+rate_codigo_ajustado = 3/8  # Rate de código ajustado
+
+# Cálculo de la velocidad de bits útiles con el nuevo rate de código
+velocidad_bits_utiles_ajustada_s = (1 / T_OFDM) * bits_por_simbolo_BPSK * K_U * rate_codigo_ajustado
+print("velocidad_bits_utiles_ajustada_s: ", velocidad_bits_utiles_ajustada_s / 1000, " kb/s.")  # Convertido a kb/s para los bits
+~~~
+
+Obteniendo los siguientes resultado de la shell.
+
+~~~
+velocidad_bits_utiles_ajustada_s:  300.0  kb/s.
+~~~
+
+**Conclusión para el caso 2**
+
+Por lo tanto, para alcanzar una velocidad de transmisión de 300 kb/s, se puede usar:
+
+- Modulación: BPSK (1 bit por símbolo).
+- Rate del Código Convencional: 3/8.
 
 [Volver al Índice](#índice)
 
