@@ -790,7 +790,7 @@ Como observamos, debería de ser el mismo código en la consola que el apartado 
 
 **Conclusiones teoricas.**
 
-- La conformación de pulso introducduciría un solapamiento controlado entre símbolos, lo que debería observarse como una transición más suave entre símbolos OFDM.
+- La conformación de pulso introduciría un solapamiento controlado entre símbolos, lo que debería observarse como una transición más suave entre símbolos OFDM.
 - Esta técnica en la imagen que debería mostrarse, tendría que reducir la ISI (Interferencia entre Símbolos) y mejorar la eficiencia espectral.
 
 [Volver al Índice](#índice)
