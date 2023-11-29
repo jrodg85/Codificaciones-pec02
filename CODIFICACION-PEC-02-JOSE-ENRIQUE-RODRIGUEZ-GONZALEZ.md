@@ -672,7 +672,126 @@ Comentar los resultados obtenidos en cada uno de los casos. Contrastar las gráf
 
 ## Respuesta a la pregunta 4.1.
 
+Para abordar esta práctica con MATLAB, vamos a centrarnos en la visualización y análisis de la señal OFDM en el dominio del tiempo. Utilizaremos la función SenyalOFDM que nos proporciona diferentes configuraciones de la señal OFDM. En nuestro caso, usaremos Matlab web, una version que los estudiantes, si estamos dados de alta en Matlab, podemos usar sin ningún problema en la URL [https://matlab.mathworks.com/](https://matlab.mathworks.com/, en la aplicación introduciremos el archivo SenyalOFDM.p facilitado en la pec, de este importará los datos y realizará los cálculos, informáticamente hablando, es la librería donde recogerá los datos.
 
+Los pasos y análisis para cada configuración solicitada son los siguientes:
+
+1. Señal OFDM sin Prefijo Cíclico.
+   - Procedimiento:
+
+        - Utilizar la función SenyalOFDM con el prefijo cíclico desactivado (Flag PCS = 0).
+        - Visualizar la parte real de la señal utilizando plot(tOFDM, real(sOFDM)).
+
+    - Código en Matlab.
+
+~~~
+% Parámetros
+FlagPCS = 0;  % Sin prefijo cíclico
+RandomSC = 1; % Portadoras aleatorias
+
+% Generación de la señal OFDM
+[sOFDM, tOFDM, ~] = SenyalOFDM(FlagPCS, RandomSC);
+
+% Visualización de la parte real de la señal
+figure;
+plot(tOFDM, real(sOFDM));
+title('Señal OFDM sin Prefijo Cíclico');
+xlabel('Tiempo (s)');
+ylabel('Amplitud');
+~~~
+
+- Pantallazo de matlab.
+
+![006](./images/006-pantallazo-matlab1.png)
+
+- Gráfica detallada de matlab.
+
+![007](./images/007-imagen-matlab-001.png)
+
+**Conclusiones.**
+
+- Sin prefijo cíclico, la señal que representa directamente los símbolos OFDM.
+- Cada símbolo OFDM es independiente, sin solapamiento entre símbolos consecutivos.
+
+2. Señal OFDM con Prefijo Cíclico sin Conformación de Pulso.
+
+    - Procedimiento:
+
+        - Activar el prefijo cíclico (Flag PCS = 1) pero sin conformación de pulso.
+
+        - Visualizar la parte real de la señal.
+
+    - Código en Matlab.
+
+~~~
+% Parámetros
+FlagPCS = 1;  % Con prefijo cíclico
+RandomSC = 1; % Portadoras aleatorias
+
+% Generación de la señal OFDM
+[sOFDM, tOFDM, ~] = SenyalOFDM(FlagPCS, RandomSC);
+
+% Visualización de la parte real de la señal
+figure;
+plot(tOFDM, real(sOFDM));
+title('Señal OFDM con Prefijo Cíclico sin Conformación de Pulso');
+xlabel('Tiempo (s)');
+ylabel('Amplitud');
+~~~
+
+Como podemos observar, lo único que cambiaremos sera asignar 1 el parámetro FlaPCS, el código es el mismo que en la primera parte.
+
+- Pantallazo de matlab.
+
+![008](./images/009-imagen-matlab-002.png)
+
+- Gráfica detallada de matlab.
+
+![009](./images/009-imagen-matlab-002.png)
+
+**Conclusiones.**
+
+- El prefijo cíclico añade una copia del final de cada símbolo OFDM al principio del mismo, para combatir el eco y el desvanecimiento.
+- La señal resultante muestra una repetición al inicio de cada símbolo.
+
+1. Señal OFDM con Prefijo Cíclico y Conformación de Pulso.
+
+    - Procedimiento:
+
+        - Activar el prefijo cíclico con conformación de pulso.
+
+        - Visualizar la parte real de la señal.
+
+    - Modificación del codigo en Matlab.
+
+        - He tratado de modificar la señal ya que para esta parte, necesito modificar la función SenyalOFDM para incluir la conformación de pulso. En nuestro caso no ha sido fructifero realizar esta accion.
+
+![010](./images/010-error-edit-SenyalOFDM.png)
+
+- Código en Matlab.
+
+~~~
+% Parámetros
+FlagPCS = 1;  % Con prefijo cíclico
+RandomSC = 1; % Portadoras aleatorias
+
+% Generación de la señal OFDM
+[sOFDM, tOFDM, ~] = SenyalOFDM(FlagPCS, RandomSC);
+
+% Visualización de la parte real de la señal
+figure;
+plot(tOFDM, real(sOFDM));
+title('Señal OFDM con Prefijo Cíclico y Conformación de Pulso');
+xlabel('Tiempo (s)');
+ylabel('Amplitud');
+~~~
+
+como observamos debería de ser el mismo código que el apartado anterior.
+
+**Conclusiones teoricas.**
+
+- La conformación de pulso introducduciría un solapamiento controlado entre símbolos, lo que debería observarse como una transición más suave entre símbolos OFDM.
+- Esta técnica en la imagen que debería mostrarse, tendría que reducir la ISI (Interferencia entre Símbolos) y mejorar la eficiencia espectral.
 
 [Volver al Índice](#índice)
 
