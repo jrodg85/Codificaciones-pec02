@@ -408,6 +408,13 @@ En esta segunda parte se realizarán algunos cálculos relacionados con el canal
 
 ## Respuesta a la pregunta 2.1.
 
+El máximo retraso temporal que puede tener un canal de propagación, especialmente en un escenario al aire libre (outdoor), depende de varios factores, incluyendo la distancia máxima de propagación y la velocidad de propagación de la señal, que suele ser la velocidad de la luz en el aire o el vacío.
+
+Para calcular el retraso temporal máximo ($\Delta t_{max}$), se utiliza la fórmula:
+
+$$\Delta t_{max} = \frac{d_{max}}{v}$$
+
+Donde $d_{max}$ es la distancia máxima de propagación y $v$ es la velocidad de la señal. En el caso de señales electromagnéticas como las de radio, $v$ es aproximadamente igual a la velocidad de la luz en el aire, que es aproximadamente $3×10^8$ metros por segundo.
 
 [Volver al Índice](#índice)
 
@@ -423,6 +430,20 @@ En esta segunda parte se realizarán algunos cálculos relacionados con el canal
 
 ## Respuesta a la pregunta 2.2.
 
+La máxima diferencia en la distancia recorrida por los diferentes rayos que llegan al receptor en un canal de comunicación, conocida como el "spread de retardo" o "dispersión temporal", se refiere a la diferencia entre la distancia recorrida por el rayo más corto y el rayo más largo que llegan al receptor.
+
+Para calcular esta diferencia, primero debemos entender que en un entorno al aire libre, la señal puede tomar múltiples caminos para llegar al receptor debido a fenómenos como la reflexión, refracción y difracción. El rayo que toma el camino más directo (generalmente en línea recta) recorre la menor distancia, mientras que los rayos que se reflejan o refractan recorren distancias más largas.
+
+La diferencia máxima en la distancia recorrida ($\Delta d_{max}$)
+
+
+$\Delta d_{max} = d_{\text{rayo L}} - d_{\text{rayo C}}$
+
+Donde:
+- $d_{\text{rayo L}}$ es es la distancia del rayo que toma el camino más largo.
+- $d_{\text{rayo C}}$ es la distancia del rayo que toma el camino más corto.
+
+Esta diferencia en las distancias es la causa del retraso temporal máximo en la señal, que discutimos en la [Pregunta anterior](#pregunta-21).
 
 [Volver al Índice](#índice)
 
@@ -446,13 +467,30 @@ Entre las diferentes estrategias para mejorar las prestaciones de la señal OFDM
 
 ## Respuesta a la pregunta 2.3.1.
 
+La implementación de un mecanismo de diversidad en transmisión para mejorar las prestaciones de la señal OFDM (Orthogonal Frequency-Division Multiplexing) en presencia de un canal, especialmente en escenarios al aire libre, es una estrategia valiosa por varias razones:
+
+1. Reducción de la Fading Multi-camino.
+   - En entornos al aire libre, la señal OFDM puede experimentar fading multi-camino, donde diferentes copias de la misma señal llegan al receptor en diferentes momentos y con diferentes fases debido a la reflexión, difracción y dispersión. La diversidad en transmisión ayuda a mitigar los efectos del fading al proporcionar múltiples versiones independientes de la señal, aumentando la probabilidad de que al menos una versión de la señal llegue al receptor con suficiente calidad.
+
+2. Mejora de la Robustez de la Señal.
+    - Al transmitir la misma señal a través de múltiples caminos o utilizando múltiples antenas, se incrementa la robustez de la señal contra interferencias y pérdidas de señal específicas del camino. Esto es crucial para mantener la calidad de la señal en entornos con obstáculos físicos y variaciones atmosféricas.
+
+3. Mejor Utilización del Espectro.
+    - OFDM es eficiente en términos de espectro debido a su capacidad para manejar canales de alta capacidad y su resistencia al interferencia inter-símbolo. La diversidad en transmisión mejora aún más esta eficiencia al reducir la necesidad de retransmisiones causadas por errores en la transmisión.
+
+4. Aumento de la Capacidad del Canal.
+    - La diversidad en transmisión puede aumentar la capacidad del canal al permitir el uso más eficiente del espectro disponible y al reducir la probabilidad de errores, lo que permite una mayor tasa de transmisión de datos.
+
+5. Compatibilidad con MIMO.
+    - La tecnología MIMO (Multiple Input Multiple Output) se basa en el principio de diversidad en transmisión y recepción. OFDM combinado con MIMO puede proporcionar un rendimiento significativamente mejorado en términos de capacidad de datos y fiabilidad de la señal en entornos desafiantes.
+
+En resumen, la diversidad en transmisión en sistemas OFDM mejora la fiabilidad, la calidad de la señal y el rendimiento general del sistema en entornos con desafíos de propagación, como es el caso en escenarios al aire libre.
+
 
 
 [Volver al Índice](#índice)
 
 ---
-
-
 
 ## Pregunta 2.3.2.
 
@@ -467,6 +505,21 @@ La siguiente figura muestra la respuesta en frecuencia de una realización del c
 
 ## Respuesta a la pregunta 2.3.2.
 
+Sí, incluso con la respuesta en frecuencia mostrando relativamente poca variación en la potencia a lo largo del ancho de banda de la señal OFDM (entre -1 y 2 dB), el mecanismo de diversidad aún sería beneficioso por las siguientes razones:
+
+1. Variabilidad del Canal.
+    - Si la atenuación varía de un símbolo OFDM al siguiente, esto indica que el canal está experimentando fluctuaciones temporales, lo que puede ser un indicativo de fading rápido. La diversidad puede ayudar a mitigar el impacto de estas fluctuaciones proporcionando múltiples caminos de señales independientes, aumentando la probabilidad de que al menos una de las versiones de la señal tenga una atenuación favorable en un momento dado.
+
+2. Redundancia de la Señal.
+    - Aunque la respuesta en frecuencia parece estable, no podemos descartar la presencia de desvanecimientos profundos (deep fades) en ciertas condiciones o en ciertos símbolos OFDM. La diversidad proporciona redundancia de la señal, lo que ayuda a asegurar que el sistema de comunicación sea resistente a tales eventos.
+
+3. Fading Selectivo en Frecuencia.
+    - A pesar de que la gráfica muestra poca variación, la diversidad puede ayudar a combatir el fading selectivo en frecuencia que puede no ser evidente en una sola realización del canal pero puede ocurrir en otras realizaciones o en diferentes ubicaciones geográficas.
+
+4. Mejora de la Calidad de la Señal.
+    - La diversidad no solo es útil para combatir el fading, sino también para mejorar la relación señal a ruido (SNR) en la recepción, lo que puede traducirse en una mejor calidad de la señal y un mayor rendimiento de datos.
+
+En resumen, un mecanismo de diversidad en transmisión sería útil para abordar la variabilidad temporal del canal y para proporcionar una capa adicional de protección contra las fluctuaciones en la calidad de la señal, lo cual es especialmente importante en un sistema OFDM que es susceptible a los efectos del canal en la dimensión de la frecuencia.
 
 
 [Volver al Índice](#índice)
