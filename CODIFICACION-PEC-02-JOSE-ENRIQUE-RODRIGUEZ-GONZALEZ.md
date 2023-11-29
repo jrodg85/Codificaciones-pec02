@@ -105,19 +105,6 @@ Preferiblemente entregad el documento en PDF y comprobad que todas las ecuacione
 - [Respuesta a la pregunta 4.1.](#respuesta-a-la-pregunta-41)
 - [Pregunta 4.2.](#pregunta-42)
 - [Respuesta a la pregunta 4.2.](#respuesta-a-la-pregunta-42)
-- [Información adicional 4.3.](#información-adicional-43)
-- [Pregunta 4.3.1.](#pregunta-431)
-- [Respuesta a la pregunta 4.3.1.](#respuesta-a-la-pregunta-431)
-- [Pregunta 4.3.2.](#pregunta-432)
-- [Respuesta a la pregunta 4.3.2.](#respuesta-a-la-pregunta-432)
-- [Pregunta 4.3.3.](#pregunta-433)
-- [Respuesta a la pregunta 4.3.3.](#respuesta-a-la-pregunta-433)
-- [Pregunta 4.3.4.](#pregunta-434)
-- [Respuesta a la pregunta 4.3.4.](#respuesta-a-la-pregunta-434)
-- [Pregunta 4.3.5.](#pregunta-435)
-- [Respuesta a la pregunta 4.3.5.](#respuesta-a-la-pregunta-435)
-- [Pregunta 4.4.](#pregunta-44)
-- [Respuesta a la pregunta 4.4.](#respuesta-a-la-pregunta-44)
 
 ---
 
@@ -700,11 +687,11 @@ xlabel('Tiempo (s)');
 ylabel('Amplitud');
 ~~~
 
-- Pantallazo de matlab.
+- Pantallazo de Matlab.
 
 ![006](./images/006-pantallazo-matlab1.png)
 
-- Gráfica detallada de matlab.
+- Gráfica detallada de Matlab.
 
 ![007](./images/007-imagen-matlab-001.png)
 
@@ -741,11 +728,11 @@ ylabel('Amplitud');
 
 Como podemos observar, lo único que cambiaremos sera asignar 1 el parámetro FlaPCS, el código es el mismo que en la primera parte.
 
-- Pantallazo de matlab.
+- Pantallazo de Matlab.
 
 ![008](./images/009-imagen-matlab-002.png)
 
-- Gráfica detallada de matlab.
+- Gráfica detallada de Matlab.
 
 ![009](./images/009-imagen-matlab-002.png)
 
@@ -764,7 +751,7 @@ Como podemos observar, lo único que cambiaremos sera asignar 1 el parámetro Fl
 
     - Modificación del codigo en Matlab.
 
-        - He tratado de modificar la señal ya que para esta parte, necesito modificar la función SenyalOFDM para incluir la conformación de pulso. En nuestro caso no ha sido fructifero realizar esta accion.
+        - He tratado de modificar la señal ya que para esta parte, necesito modificar la función SenyalOFDM para incluir la conformación de pulso. En nuestro caso no ha sido fructífero realizar esta acción.
 
 ![010](./images/010-error-edit-SenyalOFDM.png)
 
@@ -788,7 +775,7 @@ ylabel('Amplitud');
 
 Como observamos, debería de ser el mismo código en la consola que el apartado anterior.
 
-**Conclusiones teoricas.**
+**Conclusiones teóricas.**
 
 - La conformación de pulso introduciría un solapamiento controlado entre símbolos, lo que debería observarse como una transición más suave entre símbolos OFDM.
 - Esta técnica en la imagen que debería mostrarse, tendría que reducir la ISI (Interferencia entre Símbolos) y mejorar la eficiencia espectral.
@@ -826,150 +813,73 @@ La imagen de la figura 4 muestra la máscara espectral que la señal WiFi tiene 
 
 ---
 
-
-
 ## Respuesta a la pregunta 4.2.
 
+Para realizar este ejercicio usaremos el codigo facilitado en Matlab para realizar las señales solicitadas.
 
+**Señal OFDM con prefijo cíclico sin conformación de pulso.**
 
-[Volver al Índice](#índice)
+~~~
+% Parámetros de entrada
+FlagPCS = true; % true para señal con prefijo cíclico, false para sin prefijo cíclico
+RandomSC = 0; % 0 para portadoras deterministas, 1 para portadoras aleatorias QPSK
 
----
+% Generar la señal OFDM
+[sOFDM, tOFDM, Oversampling] = SenyalOFDM(FlagPCS, RandomSC);
+% Calculo del espectro de la señal OFDM
+N = length(sOFDM) * 1024; % Zero-padding para mejorar la resolución de la FFT
+Spectrum1 = 20 * log10(abs(fft(sOFDM, N)));
+fs = 20e6; % Frecuencia de muestreo
+EjeFreq = [-(N-1)/2 : (N-1)/2] / N * fs * Oversampling; % Eje frecuencial en Hz
 
-## Información adicional 4.3.
+% Graficar el espectro normalizado respecto al máximo
+plot(EjeFreq, fftshift(Spectrum1) - max(Spectrum1));
+title('Espectro de la señal OFDM');
+xlabel('Frecuencia (Hz)');
+ylabel('Densidad Espectral de Potencia (dB)');
+~~~
 
-**Efecto del canal sobre la señal OFDM.**
+- Pantallazo de Matlab.
 
-En esta parte de la práctica se propone analizar el efecto de un canal sobre la señal OFDM. Para hacerlo se recomienda seguir los siguientes pasos:
+![011](./images/011-pantallazo-matlab3.png)
 
-[Volver al Índice](#índice)
 
----
+- Gráfica detallada de Matlab.
 
-## Pregunta 4.3.1.
+![012](./images/012-imagen-matlab-003.png)
 
-Generar una señal OFDM con prefijo cíclico sin conformación de pulso.
 
-[Volver al Índice](#índice)
+**Señal OFDM sin prefijo cíclico.**
 
----
+~~~
+% Parámetros de entrada
+FlagPCS = false; % true para señal con prefijo cíclico, false para sin prefijo cíclico
+RandomSC = 0; % 0 para portadoras deterministas, 1 para portadoras aleatorias QPSK
 
-## Respuesta a la pregunta 4.3.1.
+% Generar la señal OFDM
+[sOFDM, tOFDM, Oversampling] = SenyalOFDM(FlagPCS, RandomSC);
+% Calculo del espectro de la señal OFDM
+N = length(sOFDM) * 1024; % Zero-padding para mejorar la resolución de la FFT
+Spectrum1 = 20 * log10(abs(fft(sOFDM, N)));
+fs = 20e6; % Frecuencia de muestreo
+EjeFreq = [-(N-1)/2 : (N-1)/2] / N * fs * Oversampling; % Eje frecuencial en Hz
 
+% Graficar el espectro normalizado respecto al máximo
+plot(EjeFreq, fftshift(Spectrum1) - max(Spectrum1));
+title('Espectro de la señal OFDM');
+xlabel('Frecuencia (Hz)');
+ylabel('Densidad Espectral de Potencia (dB)');
+~~~
 
+- Pantallazo de Matlab.
 
-[Volver al Índice](#índice)
+![031](./images/013-pantallazo-matlab4.png)
 
----
 
-## Pregunta 4.3.2.
+- Gráfica detallada de Matlab.
 
-Generar la respuesta impulsional de un canal. Utilizaremos un canal con respuesta impulsional exponencial que se ajusta a los modelos de canal para WiFi. Para hacerlo, las siguientes líneas de código os pueden resultar útiles:
+![014](./images/014-imagen-matlab-004.png)
 
-
-% Vector de tiempo (mismo Ts que la señal OFDM)
-tc=[0:1/(20e6)/Oversampling:1.5e-6];
-% Factor de decaimiento del canal
-T=156.25e-9;
-% Respuesta impulsional (aleatoria) siguiendo un perfil exponencial
-hc=exp(-tc/T).*(randn(size(tc))+j*randn(size(tc)));
-
-
-[Volver al Índice](#índice)
-
----
-
-## Respuesta a la pregunta 4.3.2.
-
-
-[Volver al Índice](#índice)
-
----
-
-## Pregunta 4.3.3.
-
-Visualizar la respuesta impulsional del canal en tiempo y en frecuencia (utilizar el mismo código que en el apartado 4.2 para visualizar la respuesta en frecuencia del canal). Podéis generar y visualizar diferentes respuestas de canal (por ejemplo valores de T del orden de 150ns y del orden de 60ns.) y comentar las diferencias.
-
-[Volver al Índice](#índice)
-
----
-
-## Respuesta a la pregunta 4.3.3.
-
-
-[Volver al Índice](#índice)
-
----
-
-## Pregunta 4.3.4.
-
-Haciendo uso de la convolución podéis obtener la forma de onda de la señal OFDM a la salida del canal (señal OFDM recibida).
-
-sOFDMrx=conv(hc,sOFDM)
-
-[Volver al Índice](#índice)
-
----
-
-## Respuesta a la pregunta 4.3.4.
-
-
-[Volver al Índice](#índice)
-
----
-
-## Pregunta 4.3.5.
-
-Visualizar el espectro de la señal OFDM recibida.
-
-Comentar los resultados obtenidos en cada paso haciendo especial énfasis en la forma del espectro
-de la señal recibida y comparándolo con la respuesta en frecuencia del canal. Debéis tener presentes
-los efectos del canal de comunicaciones en OFDM descritos en el apartado 3.1 de los materiales.
-
-[Volver al Índice](#índice)
-
----
-
-## Respuesta a la pregunta 4.3.5.
-
-
-[Volver al Índice](#índice)
-
----
-
-## Pregunta 4.4.
-
-**Visualización del Peak-to-average power ratio.**
-
-Un aspecto no trabajado en los materiales y que resulta especialmente crítico en OFDM es el Peak-to-average power ratio (PAPR) que corresponde al cociente entre la potencia de pico y la potencia
-media de la señal:
-
-$PAPR(dB) = 10 · log10 \frac{P_{peak}}{P_{av}}$
-
-donde:
-
-$P_{peak}= max\{|s(t)|^2\}$
-
-$P_{av}= mean\{|s(t)|^2\}$
-
-A este tema le dedicaremos especial énfasis en el módulo 6 de este curso. Como discutiremos en aquel módulo las señales con picos de potencia no serán deseables desde el punto de vista de los amplificadores de potencia. Desgraciadamente la señal OFDM presenta un PAPR demasiado elevado y es objeto de investigación el diseño de soluciones que reduzcan este ratio.<sup>1</sup>
-
-Aprovechando esta práctica se propone que visualicéis el módulo al cuadrado de una señal OFDM que incluya prefijo cíclico (configurad RandomSC=1), y calculéis $P_{av}$, $P_{peak}$ y $PAPR$.
-
-Pav=mean(abs(sOFDM).ˆ 2);
-Ppeak=max(abs(sOFDM).ˆ 2);
-PAPR=10*log10(Ppeak/Pav);
-plot(tOFDM,abs(sOFDM).ˆ 2);
-
-[Volver al Índice](#índice)
-
----
->1: A modo de curiosidad comentar que LTE en el canal de subida no utiliza una OFDM sino un esquema single carrier frequency division multiple access (SC-FDMA) para resolver el problema del PAPR. Formalmente esta técnica consiste en introducir una FFT adicional para transmitir los símbolos en tiempo en vez de hacerlo en frecuencia.
-
-
----
-
-## Respuesta a la pregunta 4.4.
 
 
 [Volver al Índice](#índice)
