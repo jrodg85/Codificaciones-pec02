@@ -436,7 +436,6 @@ Para calcular esta diferencia, primero debemos entender que en un entorno al air
 
 La diferencia máxima en la distancia recorrida ($\Delta d_{max}$)
 
-
 $\Delta d_{max} = d_{\text{rayo L}} - d_{\text{rayo C}}$
 
 Donde:
@@ -485,8 +484,6 @@ La implementación de un mecanismo de diversidad en transmisión para mejorar la
     - La tecnología MIMO (Multiple Input Multiple Output) se basa en el principio de diversidad en transmisión y recepción. OFDM combinado con MIMO puede proporcionar un rendimiento significativamente mejorado en términos de capacidad de datos y fiabilidad de la señal en entornos desafiantes.
 
 En resumen, la diversidad en transmisión en sistemas OFDM mejora la fiabilidad, la calidad de la señal y el rendimiento general del sistema en entornos con desafíos de propagación, como es el caso en escenarios al aire libre.
-
-
 
 [Volver al Índice](#índice)
 
@@ -568,6 +565,33 @@ Proponed los parámetros que debería tener la forma de onda de la señal OFDM (
 
 ## Respuesta a la pregunta 3.2.
 
+Para proponer los parámetros de la forma de onda de la señal OFDM, basándonos en la tabla proporcionada y los requerimientos del escenario, consideramos los siguientes puntos:
+
+1. $N$ (Número de puntos de la FFT)
+    - Ya se ha proporcionado como 128. Este valor determina la resolución espectral y la capacidad de manejar el multipath fading en el canal.
+
+2. $K$ (Número de portadoras no suprimidas).
+    - Se ha dado como 104. Este valor influye en el uso del espectro y la capacidad de manejar interferencias y fading.
+
+3. $K_U$ (Número de portadoras útiles).
+    - Se menciona como 96, lo que indica el número de subportadoras que están efectivamente transportando datos.
+
+4. $\delta_f$ (Separación en frecuencia entre portadoras consecutivas).
+    - Calculado como 10,416.67 Hz. Esta separación entre portadoras ayuda a mantener la ortogonalidad y reducir el efecto del ISI (Inter-Symbol Interference).
+
+5. $T_p$ (Tiempo útil de símbolo).
+    - Dado como 96 µs. Este es el tiempo durante el cual la señal OFDM efectivamente transmite información.
+
+6. $T_G$ (Tiempo de prefijo cíclico).
+    - Calculado aproximadamente como 24 µs. El prefijo cíclico se utiliza para mitigar el efecto del multipath fading y el ISI. Su duración debe ser mayor que el delay spread máximo del canal, que es de 100ns en este caso.
+
+7. $T_{OFDM}$ (Tiempo de símbolo OFDM).
+    - Dado como 120 µs. Este es el tiempo total de un símbolo OFDM, incluyendo tanto el tiempo útil de símbolo como el tiempo del prefijo cíclico.
+
+8. $B_{W_{OFDM}}$ (Ancho de banda de la señal OFDM).
+    - Calculado como 1.08 MHz. Este valor representa el ancho de banda total ocupado por la señal OFDM. Es importante notar que el ancho de banda disponible es de hasta 40 MHz, pero el diseño actual utiliza solo una pequeña fracción de este.
+
+Con estos parámetros, la señal OFDM está diseñada para manejar efectivamente un canal con un delay spread de 100ns, manteniendo una pérdida de potencia baja debido al prefijo cíclico y ofreciendo una velocidad de transmisión de canal adecuada. Además, se ajusta al ancho de banda limitado disponible y a las características de la respuesta en frecuencia del canal descritas.
 
 
 [Volver al Índice](#índice)
@@ -583,6 +607,29 @@ Proponed la estructura que deberían tener los símbolos piloto. Haced una propu
 ---
 
 ## Respuesta a la pregunta 3.3.
+
+Para proponer la estructura de los símbolos piloto en una señal OFDM y distribuir adecuadamente las portadoras entre datos, pilotos y portadoras suprimidas, consideraremos varios factores clave:
+
+1. Número de Portadoras Piloto.
+
+   - Propósito: Las portadoras piloto se utilizan para la estimación del canal y la corrección de la frecuencia. Su número y distribución dependen del entorno de propagación y de las características específicas del canal.
+    - Selección: En un entorno con un delay spread de 100 ns, el canal puede experimentar variaciones moderadas. Un número común de portadoras piloto en sistemas como 802.11 (Wi-Fi) es alrededor del 4-12% del total de portadoras útiles. Si asumimos un 10% para nuestro caso, con 96 portadoras útiles, tendríamos aproximadamente 10 portadoras piloto.
+
+2. Número de Portadoras Útiles ($K_U$).
+
+   - Requerimientos de Velocidad: Con una velocidad de transmisión mínima de 54 Mbps y un ancho de banda de 1.08 MHz (como se calculó anteriormente), debemos garantizar que el número de portadoras útiles sea suficiente para alcanzar esta velocidad.
+
+    - Cálculo Aproximado: Si asumimos que cada portadora puede llevar, por ejemplo, 6 bits por símbolo (modulación 64-QAM), el número de portadoras útiles necesario sería al menos 54 Mbps / (6 bits/símbolo * 1/T_símbolo). Con un T_símbolo (Tiempo de símbolo OFDM) de 120 µs, esto nos daría un número mínimo teórico. Sin embargo, el número real puede variar dependiendo de las condiciones del canal y otros factores de diseño.
+
+3. Distribución de Portadoras:
+
+    - Portadoras Piloto: Las portadoras piloto deben estar distribuidas de manera uniforme a lo largo del espectro para permitir una buena estimación del canal en todo el ancho de banda. Se podrían colocar de manera equidistante.
+
+   - Portadoras de Datos: El resto de las portadoras se utilizarán para la transmisión de datos.
+
+    - Portadoras Suprimidas: Estas se utilizan para evitar la interferencia con canales adyacentes y generalmente se ubican en los extremos del espectro de frecuencias. La cantidad dependerá de los requerimientos reglamentarios y del diseño del sistema.
+
+En resumen, para diseñar la estructura de los símbolos piloto y la distribución de las portadoras en un sistema OFDM para un canal con un delay spread de 100 ns y una velocidad de transmisión mínima de 54 Mbps, propondríamos alrededor de 10 portadoras piloto (10% de 96), y el resto distribuido entre portadoras de datos y algunas suprimidas en los extremos para evitar interferencias.
 
 
 [Volver al Índice](#índice)
