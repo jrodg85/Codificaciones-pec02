@@ -786,7 +786,7 @@ xlabel('Tiempo (s)');
 ylabel('Amplitud');
 ~~~
 
-como observamos debería de ser el mismo código que el apartado anterior.
+Como observamos, debería de ser el mismo código en la consola que el apartado anterior.
 
 **Conclusiones teoricas.**
 
